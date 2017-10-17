@@ -1,6 +1,8 @@
 ANSI - A Colorful Formatter for Go
 ==================================
 
+![Travis CI](https://travis-ci.org/jhunt/go-ansi.svg?branch=master)
+
 Ever wanted colorful output from your Golang CLI projects, but
 don't want to have to muck up your codebase with unsightly ANSI
 escape sequences?
