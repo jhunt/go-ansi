@@ -40,7 +40,7 @@ The colorizing formatting codes all look like this:
 
     @ <color> { <text> }
 
-![Colors in the Shell](https://raw.githubusercontent.com/jhunt/go-ansi/master/docs/colors.png)
+![Colors in the Shell](colors.png)
 
 (for the image-averse and search engines:)
 
