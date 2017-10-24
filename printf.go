@@ -55,16 +55,17 @@ func colorize(s string) string {
 		}
 		if m[1:2] == "*" {
 			rainbow := "RYGCBM"
-			skipCount := 0
 			s := ""
-			for i, c := range m[3 : len(m)-1] {
-				if unicode.IsSpace(c) { //No color wasted on whitespace
-					skipCount++
+			i := 0
+			for _, c := range m[3 : len(m)-1] {
+				if unicode.IsSpace(c) {
 					s += string(c)
 					continue
 				}
-				j := (i - skipCount) % len(rainbow)
+
+				j := i % len(rainbow)
 				s += "\033[" + colors[rainbow[j:j+1]] + "m" + string(c) + "\033[00m"
+				i++
 			}
 			return s
 		}
