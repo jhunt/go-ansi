@@ -49,13 +49,8 @@ func TestColorizer(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		Color(true)
 		if colorize(test.In) != test.Out {
 			t.Errorf("colorize(`%s`) was `%s`, not `%s`", test.In, colorize(test.In), test.Out)
-		}
-		Color(false)
-		if colorize(test.In) != test.Not {
-			t.Errorf("colorize(`%s`) was `%s`, not `%s`", test.In, colorize(test.In), test.Not)
 		}
 	}
 }
