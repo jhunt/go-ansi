@@ -40,19 +40,23 @@ var (
 	}
 
 	re = regexp.MustCompile(`(?s)@[kKrRgGyYbBmMpPcCwW*]{.*?}`)
+	st = regexp.MustCompile("\033\\[\\d+(;\\d+)?m")
 )
 
-var colorable = isatty.IsTerminal(os.Stdout.Fd())
+var (
+	force bool
+)
 
-func Color(c bool) {
-	colorable = c
+func ForceColor(c bool) {
+	force = c
+}
+
+func strip(s string) string {
+	return st.ReplaceAllString(s, "")
 }
 
 func colorize(s string) string {
 	return re.ReplaceAllStringFunc(s, func(m string) string {
-		if !colorable {
-			return m[3 : len(m)-1]
-		}
 		if m[1:2] == "*" {
 			rainbow := "RYGCBM"
 			s := ""
@@ -74,11 +78,19 @@ func colorize(s string) string {
 }
 
 func Printf(format string, a ...interface{}) (int, error) {
-	return fmt.Printf(colorize(format), a...)
+	s := colorize(format)
+	if !isatty.IsTerminal(os.Stdout.Fd()) {
+		s = strip(s)
+	}
+	return fmt.Printf(s, a...)
 }
 
 func Fprintf(out io.Writer, format string, a ...interface{}) (int, error) {
-	return fmt.Fprintf(out, colorize(format), a...)
+	s := colorize(format)
+	if f, ok := out.(*os.File); ok && !isatty.IsTerminal(f.Fd()) {
+		s = strip(s)
+	}
+	return fmt.Fprintf(out, s, a...)
 }
 
 func Sprintf(format string, a ...interface{}) string {
