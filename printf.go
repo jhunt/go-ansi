@@ -78,19 +78,19 @@ func colorize(s string) string {
 }
 
 func Printf(format string, a ...interface{}) (int, error) {
-	s := colorize(format)
+	s := fmt.Sprintf(colorize(format), a...)
 	if !force && !isatty.IsTerminal(os.Stdout.Fd()) {
 		s = strip(s)
 	}
-	return fmt.Printf(s, a...)
+	return fmt.Printf("%s", s)
 }
 
 func Fprintf(out io.Writer, format string, a ...interface{}) (int, error) {
-	s := colorize(format)
+	s := fmt.Sprintf(colorize(format), a...)
 	if f, ok := out.(*os.File); ok && !force && !isatty.IsTerminal(f.Fd()) {
 		s = strip(s)
 	}
-	return fmt.Fprintf(out, s, a...)
+	return fmt.Fprintf(out, "%s", s)
 }
 
 func Sprintf(format string, a ...interface{}) string {
