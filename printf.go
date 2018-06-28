@@ -92,7 +92,7 @@ func ShouldColorize(out io.Writer) bool {
 
 func Printf(format string, a ...interface{}) (int, error) {
 	s := colorize(format)
-	if ShouldColorize(os.Stdout) {
+	if !ShouldColorize(os.Stdout) {
 		s = strip(s)
 	}
 	return fmt.Printf(s, a...)
@@ -100,7 +100,7 @@ func Printf(format string, a ...interface{}) (int, error) {
 
 func Fprintf(out io.Writer, format string, a ...interface{}) (int, error) {
 	s := colorize(format)
-	if ShouldColorize(out) {
+	if !ShouldColorize(out) {
 		s = strip(s)
 	}
 	return fmt.Fprintf(out, s, a...)
